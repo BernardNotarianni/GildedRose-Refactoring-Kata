@@ -26,8 +26,33 @@ class GildedRoseTest {
                 qualityOverTime(5, 20, 12));
     }
 
+    @Test
+    @DisplayName("Aged Brie actually increases in Quality the older it gets")
+    void agedBrieIncreaseInQualityOverTime() {
+        List<Integer> agedBrieQualityOverTime = productQualityOverTime("Aged Brie", 5, 20, 12);
+        assertEquals(Arrays.asList(20, 21, 22, 23, 24, 25, 27, 29, 31, 33, 35, 37, 39), agedBrieQualityOverTime);
+    }
+
+    @Test
+    @DisplayName("The Quality of an item cannot increase beyond 50")
+    void qualityCannotBeMoreThan50() {
+        List<Integer> agedBrieQualityOverTime = productQualityOverTime("Aged Brie", 5, 45, 12);
+        assertEquals(Arrays.asList(45, 46, 47, 48, 49, 50, 50, 50, 50, 50, 50, 50, 50), agedBrieQualityOverTime);
+    }
+
+    @Test
+    @DisplayName("A product can start with a quality over 50")
+    void qualityStartingOver50() {
+        List<Integer> startAt52 = qualityOverTime(5, 52, 3);
+        assertEquals(Arrays.asList(52, 51, 50, 49), startAt52);
+    }
+
     private List<Integer> qualityOverTime(int sellIn, int quality, int times) {
-        Item[] items = new Item[]{new Item("foo", sellIn, quality)};
+        return productQualityOverTime("foo", sellIn, quality, times);
+    }
+
+    private List<Integer> productQualityOverTime(String productName, int sellIn, int quality, int times) {
+        Item[] items = new Item[]{new Item(productName, sellIn, quality)};
         GildedRose app = new GildedRose(items);
         ArrayList<Integer> results = new ArrayList<>();
 
