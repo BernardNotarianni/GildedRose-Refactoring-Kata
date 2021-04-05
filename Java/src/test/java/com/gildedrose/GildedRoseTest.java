@@ -44,7 +44,7 @@ class GildedRoseTest {
     @DisplayName("A product can start with a quality over 50")
     void qualityStartingOver50() {
         List<Integer> startAt52 = qualityOverTime(5, 52, 3);
-        assertEquals(Arrays.asList(52, 51, 50, 43), startAt52);
+        assertEquals(Arrays.asList(52, 51, 50, 49), startAt52);
     }
 
     private List<Integer> qualityOverTime(int sellIn, int quality, int times) {
