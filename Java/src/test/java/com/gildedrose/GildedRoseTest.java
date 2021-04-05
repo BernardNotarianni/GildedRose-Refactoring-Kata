@@ -47,6 +47,27 @@ class GildedRoseTest {
         assertEquals(Arrays.asList(52, 51, 50, 49), startAt52);
     }
 
+    @Test
+    @DisplayName("Sulfuras, being a legendary item, never has to be sold or decreases in Quality")
+    void qualityOfSulfurasNeverChange() {
+        List<Integer> sulfuras = productQualityOverTime("Sulfuras, Hand of Ragnaros", 5, 52, 3);
+        assertEquals(Arrays.asList(52, 52, 52, 52), sulfuras);
+    }
+
+    @Test
+    @DisplayName("Backstage passes quality increases by 1 if more than 10 days left")
+    void qualityBackstagePassesIncreaseInValue() {
+        List<Integer> backstage = productQualityOverTime("Backstage passes to a TAFKAL80ETC concert", 30, 10, 3);
+        assertEquals(Arrays.asList(10, 11, 12, 13), backstage);
+    }
+
+    @Test
+    @DisplayName("Backstage passes quality increases by 2 if between 10 and 5 days left, then by 3")
+    void qualityBackstagePassesIncreaseWhenConcertDateApproachZeroAfter() {
+        List<Integer> backstage = productQualityOverTime("Backstage passes to a TAFKAL80ETC concert", 12, 10, 15);
+        assertEquals(Arrays.asList(10, 11, 12, 14, 16, 18, 20, 22, 25, 28, 31, 34, 37, 0, 0, 0), backstage);
+    }
+
     private List<Integer> qualityOverTime(int sellIn, int quality, int times) {
         return productQualityOverTime("foo", sellIn, quality, times);
     }
